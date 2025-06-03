@@ -101,8 +101,8 @@ def paragraph_to_html(block):
 def heading_to_html(block):
     # Splits into parts[0]="#...", parts[1]=text
     parts = block.split(" ", 1)
-    len = len(parts[0])
-    tag = f"h{len}"
+    length = len(parts[0])
+    tag = f"h{length}"
     children = []
     text_nodes = text_to_textnodes(parts[1])
     for node in text_nodes:
@@ -119,7 +119,7 @@ def quote_to_html(block):
     lines = block.split("\n")
     children = []
     for line in lines:
-        text = line[1:] # remove ">"
+        text = line[2:] # remove "> "
         nodes = text_to_textnodes(text)
         for node in nodes:
             children.append(TextNode.text_node_to_html_node(node))
@@ -166,8 +166,16 @@ def markdown_to_html_node(markdown):
             case BlockType.UNORDERED_LIST:
                 children.append(ul_to_html(block))
             case BlockType.ORDERED_LIST:
-                children.appen(ol_to_html(block))
+                children.append(ol_to_html(block))
     
     html = ParentNode("div", children)
     return html
+
+def extract_title(markdown):
+    lines = markdown.split("\n")
+    for line in lines:
+        if line[:2] == "# ":
+            return line[2:]
+    raise Exception("No title in markdown")
+
 

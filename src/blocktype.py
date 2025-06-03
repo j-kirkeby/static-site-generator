@@ -16,7 +16,7 @@ class BlockType(Enum):
         if re.fullmatch(r"```.*```", block, re.DOTALL):
             return BlockType.CODE
         
-        if re.match(r">", block):
+        if re.match(r"> ", block):
             lines = block.split("\n")
             for line in lines:
                 if not re.match(r">", line):

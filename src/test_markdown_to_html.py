@@ -35,6 +35,24 @@ the **same** even with inline stuff
             html,
             "<div><pre><code>This is text that _should_ remain\nthe **same** even with inline stuff</code></pre></div>",
         )
+    
+    def test_extract_title(self):
+        markdown = """
+bla bla
+# Title
+bla bla
+"""
+        self.assertEqual(
+            "Title", extract_title(markdown)
+        )
+
+        markdown = """
+bla bla
+blabla
+bla bla
+"""
+        with self.assertRaises(Exception):
+            extract_title(markdown)
 
 if __name__ == "__main__":
     unittest.main()
